@@ -2,7 +2,7 @@ import letter from '../assets/letter.svg'
 import phone from '../assets/phone.svg'
 import '../styles/App.css'
 
-export default function Resume({ general, education }) {
+export default function Resume({ general, education, work }) {
   const {name, email, phoneNum} = general;
 
   return (
@@ -24,6 +24,12 @@ export default function Resume({ general, education }) {
 			<Section title="Education">
         {education.map((edu, i) => (
           <EducationEntry key={i} {...edu} />
+        ))}
+      </Section>
+
+      <Section title="Professional Experience">
+        {work.map((job, i) => (
+          <WorkEntry key={i} {...job} />
         ))}
       </Section>
 		</div>
@@ -48,6 +54,28 @@ export function EducationEntry({ degree, school, startDate, endDate }) {
       <div className="edu-main">
         <h3>{school}</h3>
         <p>{degree}</p>
+      </div>
+    </div>
+  );
+}
+
+export function WorkEntry({
+  jobTitle,
+  company,
+  startDate,
+  endDate,
+  description,
+}) {
+  return (
+    <div className="work-entry">
+      <div className="work-dates">
+        {startDate} – {endDate}
+      </div>
+
+      <div className="work-main">
+        <h3>{company}</h3>
+        <h4>{jobTitle}</h4>
+        <p>{description}</p>
       </div>
     </div>
   );

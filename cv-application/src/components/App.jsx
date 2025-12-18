@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import '../styles/App.css'
-import GeneralInfo from './generalInfo'
 import DropDown from './dropDown';
+import GeneralInfo from './generalInfo'
 import Education from './education';
+import WorkExperience from './workExperience';
 import Resume from './resume';
 import People from '../assets/people.svg'
 import Hat from '../assets/education.svg'
+import Workcase from '../assets/work-case.svg'
 
-function App() {
+
+export default function App() {
   const [general, setGeneral] = useState({
     name: '',
     email: '', 
@@ -15,6 +18,7 @@ function App() {
   });
 
   const [education, setEducation] = useState([]);
+  const [work, setWork] = useState([]);
 
   const handleGeneralSubmit = (data) => setGeneral(data);
 
@@ -23,6 +27,11 @@ function App() {
   
   const updateEducation = (index, newEntry) =>
     setEducation((prev) => prev.map((e, i) => (i === index ? newEntry : e)));
+
+  const handleWorkSubmit = (entry) => setWork((prev) => [...prev, entry]);
+
+  const updateWork = (index, newEntry) =>
+    setWork((prev) => prev.map((w, i) => (i === index ? newEntry : w)));
 
   return (
     <>
@@ -56,11 +65,25 @@ function App() {
       ariaLabel="education dropdown"
       />
 
-      </div>
-    <Resume general={general} education={education}/> 
+      <DropDown
+      FormComponent={
+        <WorkExperience
+        entries={work}
+        onSubmit={handleWorkSubmit}
+        onUpdate={updateWork}
+        />
+      }
+      formClass='work-form'
+      formName={
+        <>
+        <img src={Workcase} alt="" />
+        Work Experience
+        </>
+      }
+      ariaLabel='work experience dropdown'
+      />
+    </div>
+    <Resume general={general} education={education} work={work}/> 
     </>
   )
 }
-
-
-export default App
